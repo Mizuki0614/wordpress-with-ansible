@@ -1,6 +1,6 @@
 ## Wordpress導入のためのOS/MW/SW準備
 
-### Nginxの導入・設定
+### Nginxの導入/設定
 
 1. 導入準備
     

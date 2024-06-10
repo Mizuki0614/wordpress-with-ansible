@@ -1,6 +1,6 @@
 ## Wordpress導入のためのOS/MW/SW準備
 
-### php-fpmの導入/設定
+### PHPの導入/設定
 
 - 参考
     
