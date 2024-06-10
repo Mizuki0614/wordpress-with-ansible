@@ -1,13 +1,13 @@
 目次  
 1. ローカル環境でのCentOS立ち上げ
-   1. [ローカルPCセットアップ](./docs/1_vagrant-setting.md)
+   1. [ローカルPCセットアップ](./1_vagrant-setting.md)
 
 2. Wordpress導入のためのOS/MW/SW準備
-   1. [OSユーザー作成/公開鍵認証設定](./docs/2-1_ssh-setting.md)
-   2. [Nginxの導入/設定](./docs/2-2_nginx-setting.md)
-   3. [PHPの導入/設定](./docs/2-3_php-setting.md)
-   4. [MySQLの導入/設定](./docs/2-4_mysql-setting.md)
-   5. [Wordpress導入/設定](./docs/2-5_wordpress-setting.md)
+   1. [OSユーザー作成/公開鍵認証設定](./2-1_ssh-setting.md)
+   2. [Nginxの導入/設定](./2-2_nginx-setting.md)
+   3. [PHPの導入/設定](./2-3_php-setting.md)
+   4. [MySQLの導入/設定](./2-4_mysql-setting.md)
+   5. [Wordpress導入/設定](./2-5_wordpress-setting.md)
 ---
 
 ## Wordpress導入のためのOS/MW/SW準備
