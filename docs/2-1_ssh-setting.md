@@ -8,20 +8,15 @@
     
 1. Rootユーザーにスイッチユーザーを行い、Rootユーザーのパスワードを設定します。
     
-    ```powershell
-    [vagrant@localhost ~]$ su -
-    [root@localhost ~]# passwd
-    Changing password for user root.
-    New password:
-    Retype new password:
-    passwd: all authentication tokens updated successfully.
-    [root@localhost ~]#
+    ```bash
+    su -
+    passwd
     ```
     
 2. Rootユーザーで新規ユーザーを作成します。当手順ではユーザー`menta` を作成します。
     
-    ```powershell
-    [root@localhost ~]# useradd menta
+    ```bash
+    useradd menta
     ```
     
 3. ローカルPCで秘密鍵と公開鍵の作成を行います。以下はPowerShellでのコマンドになります。
@@ -53,16 +48,16 @@
         
     - 仮想マシンから`/vagrant` ディレクトリに公開鍵が転送されたことを確認します。
         
-        ```powershell
-        [menta@localhost ~]$ ll /vagrant/id_rsa.pub 
+        ```bash
+        ll /vagrant/id_rsa.pub 
+
         -rwxrwxrwx 1 vagrant vagrant 573 Jun  1 13:06 /vagrant/id_rsa.pub
-        [menta@localhost ~]$ 
         ```
         
 5. 仮想マシン側でSSHの設定を行います。なお、CentOS 7.2では`openssh-server` がプリインストールされているため、導入は不要です。
     
-    ```powershell
-    [root@localhost ~]# vi /etc/ssh/sshd_config
+    ```bash
+    vi /etc/ssh/sshd_config
     ```
     
     | 変更前 | 変更後 | 説明 |
@@ -70,34 +65,37 @@
     | #PermitRootLogin yes | PermitRootLogin no | rootユーザーによるログインを許可するか |
     | #PasswordAuthentication yes | PasswordAuthentication no | パスワード認証を許可するか |
     | #PermitEmptyPasswords no | PermitEmptyPasswords no | パスワードなしを許可するか |
-    |  | Match User vagrant
-      PasswordAuthentication yes | ユーザーvagrantのみパスワード認証を許可 |
+    |  | Match User vagrant  PasswordAuthentication yes | ユーザーvagrantのみパスワード認証を許可 |
 6. SSHサービスを再起動し、OS起動時に起動するように設定します。
     
-    ```powershell
-    [root@localhost ~]# systemctl reload sshd.service
+    ```bash
+    systemctl reload sshd.service
+
     # active (running)と表示されることを確認。
-    [root@localhost ~]# systemctl status sshd.service
-    
-    [root@localhost ~]# systemctl enable sshd.service
+    systemctl status sshd.service
+    systemctl enable sshd.service
+
     # enabledと表示されることを確認。
-    [root@localhost ~]# systemctl is-enabled sshd.service
+    systemctl is-enabled sshd.service
     ```
     
 7. ローカルPCからアップロードした公開鍵を`~/.ssh/authorized_keys` に登録します。今回はmentaユーザーのログインに対して公開鍵認証を設定したいため、mentaユーザーにスイッチユーザーをしたのち、設定を行います。
     
-    ```powershell
-    [root@localhost ~]# su menta
-    [menta@localhost root]$ cd ~
-    [menta@localhost ~]$ ls -l .ssh
+    ```bash
+    su menta
+    cd ~
+    ls -l .ssh
+
     # `~/.ssh` フォルダが存在しない場合、作成を行います。
-    [menta@localhost ~]$ mkdir ~/.ssh
+    mkdir ~/.ssh
+
     # `~/.ssh/authorized_keys` に公開鍵の内容を追記します。
-    [menta@localhost ~]$ cat /vagrant/id_rsa.pub >> ~/.ssh/authorized_keys
+    cat /vagrant/id_rsa.pub >> ~/.ssh/authorized_keys
+    
     # ファイルとディレクトリに対して権限の設定を行います。
-    [menta@localhost ~]$ chmod 700 ~/.ssh/
-    [menta@localhost ~]$ chmod 600 ~/.ssh/authorized_keys
-    [menta@localhost ~]$ rm /vagrant/id_rsa.pub
+    chmod 700 ~/.ssh/
+    chmod 600 ~/.ssh/authorized_keys
+    rm /vagrant/id_rsa.pub
     ```
     
 8. ローカルPCのSSHクライアントから`ssh` コマンドで仮想マシンに接続ができることを確認します。また、今回の設定ではローカル端末から`dev.menta.me` というホスト名でアクセスしたいため、hostsファイルも併せて修正します。
@@ -125,5 +123,3 @@
             Last login: Sun Jun  9 11:05:00 2024
             [menta@localhost ~]$
             ```
-            
-

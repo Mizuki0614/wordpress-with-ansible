@@ -3,8 +3,8 @@
 ## 環境
 - ローカルPC
   - Windows 11
-  - VirtualBox
-  - Vagrant
+  - VirtualBox 7.0.10
+  - Vagrant 2.4.1
 - 仮想マシン
   - CentOS 7.2
   - Nginx 1.26.1
@@ -22,3 +22,4 @@
 2. [Nginxの導入/設定](./docs/2-2_nginx-setting.md)
 3. [PHPの導入/設定](./docs/2-3_php-setting.md)
 4. [MySQLの導入/設定](./docs/2-4_mysql-setting.md)
+5. [Wordpress導入/設定](./docs/2-5_wordpress-setting.md)

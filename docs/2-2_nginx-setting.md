@@ -5,27 +5,31 @@
 1. 導入準備
     
     ```bash
-    [menta@localhost ~]$ su -
-    Password:
-    Last login: Sun Jun  9 11:04:53 BST 2024 on pts/1
-    [root@localhost ~]# yum update
+    su -
+    yum update
+
     # EPELリポジトリの追加
-    [root@localhost ~]# yum -y install epel-release
+    yum -y install epel-release
+
     # remiリポジトリの追加
-    [root@localhost ~]# yum install https://rpms.remirepo.net/enterprise/remi-release-7.rpm
+    yum install https://rpms.remirepo.net/enterprise/remi-release-7.rpm
+
     # vim, wgetの導入
-    [root@localhost ~]# yum -y install vim, wget
+    yum -y install vim, wget
     
     # SELinuxの無効化
-    [root@localhost ~]# getenforce
+    getenforce
+
     # Enforcingだった場合に下記を実施
-    [root@localhost ~]# vi /etc/selinux/config
+    vi /etc/selinux/config
     
+    # 以下を参照に値をdisabledに変更
     SELINUX=disabled
     
     # Nginxリポジトリファイルの作成
-    [root@localhost ~]# vi /etc/yum.repos.d/nginx.repo
-    
+    vi /etc/yum.repos.d/nginx.repo
+
+    # 以下を参照に設定ファイルを作成
     [nginx-stable]
     name=nginx stable repo
     baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
@@ -43,12 +47,14 @@
     module_hotfixes=true
     
     # Nginxインストール
-    [root@localhost ~]# yum -y install nginx
+    yum -y install nginx
+
     # Nginx起動/OS起動時に起動するように設定
-    [root@localhost ~]# systemctl start nginx
-    [root@localhost ~]# systemctl enable nginx
+    systemctl start nginx
+    systemctl enable nginx
+
     # enabledと表示されることを確認
-    [root@localhost ~]# systemctl is-enables nginx
+    systemctl is-enables nginx
     ```
     
     - ローカルPCのWebブラウザから、仮想マシンのIP（もしくはhostsファイルで設定したホスト名）にアクセスを行い、NginxのWelcomeページが表示されることを確認します。
@@ -60,21 +66,26 @@
     - locationの追加
     
     ```bash
-    [root@localhost ~]# vim /etc/nginx/nginx.conf
+    vim /etc/nginx/nginx.conf
     
+    # # 以下、設定値
+
+    # 1. /etc/nginx/conf.d/*.confから設定を読み込まないように設定変更（コメントアウト）
+        # include /etc/nginx/conf.d/*.conf;
+
         server {
             listen       80;
             listen       [::]:80;
             server_name  _;
             # root         /usr/share/nginx/html;
             # root         /var/www/html;
-            # 1. ドキュメントルートを/var/www/dev.menta.meに設定変更
+    # 2. ドキュメントルートを/var/www/dev.menta.meに設定変更
             root         /var/www/dev.menta.me;
     
             # Load configuration files for the default server block.
             include /etc/nginx/default.d/*.conf;
     
-            # 2. PHPに対応するようにlocationを追加
+    # 3. PHPに対応するようにlocationを追加
             location / {
                     index index.php index.html index.htm;
             }
@@ -99,7 +110,7 @@
     - 設定変更後、Nginxプロセスの再起動を行います。
         
         ```bash
-        [root@localhost ~]#systemctl restart nginx
+        systemctl restart nginx
         ```
         
 3. nginxログの形式変更
@@ -118,8 +129,12 @@
     - Nginx設定ファイルの変更
         
         ```bash
-        [root@localhost ~]# vim /etc/nginx/nginx.conf
+        vim /etc/nginx/nginx.conf
+        ```
         
+        ```bash
+        # /etc/nginx/nginx.conf
+
         http {
         
         # 1. mainログフォーマットをコメントアウトします。

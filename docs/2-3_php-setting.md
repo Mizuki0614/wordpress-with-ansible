@@ -4,8 +4,10 @@
 
 - 参考
     
-    [RemiでCentOS7にPHP8をインストールする - Qiita](https://qiita.com/C_HERO/items/1512ba1e33c330c9ab0d)
-    
+    - [[WordPress]php-fpmでstaticを利用してチューニングをしてみた](https://blog.adachin.me/archives/2317)
+
+    - [RemiでCentOS7にPHP8をインストールする - Qiita](https://qiita.com/C_HERO/items/1512ba1e33c330c9ab0d)
+
 1. Stable最新版php-fpmのインストール
     - 下記ページにアクセスし、OS情報、PHP version、インストールタイプを入力します。画像は、CentOS 7.2でStable最新版のphp-fpmをインストールする際の例です。
         
@@ -39,8 +41,12 @@
 2. php-fpmの設定ファイルをNginxで利用するための設定に修正します。
     
     ```bash
-    [root@localhost ~]# vim /etc/php-fpm.d/www.conf
+    vim /etc/php-fpm.d/www.conf
+    ```
     
+    ```bash
+    # /etc/php-fpm.d/www.conf
+
     # リスナーを変更
     listen = /var/run/php-fpm/php-fpm.sock
     
@@ -56,10 +62,11 @@
 3. php-fpmを起動して、OS起動時に自動起動するように設定を行います。
     
     ```bash
-    [root@localhost ~]# systemctl start php-fpm
-    [root@localhost ~]# systemctl enable php-fpm
+    systemctl start php-fpm
+    systemctl enable php-fpm
+
     # enabledと表示されることを確認
-    [root@localhost ~]# systemctl is-enabled php-fpm
+    systemctl is-enabled php-fpm
     ```
     
 4. PHPが使用できることを確認します。
@@ -69,6 +76,32 @@
     echo "<?php echo 'Hello PHP7';" > index.php
     ```
     
-    - ローカルPCのWebブラウザから`http://dev.menta.me/index.php` にアクセスを行い、PHPが問題なくブラウザに表示されていることを確認する。
+    - ローカルPCのWebブラウザから`http://dev.menta.me/index.php` にアクセスを行い、PHPが問題なくブラウザに表示されていることを確認します。
         
         ![Untitled](../images/4.png)
+
+5. php-fpmに明示的にメモリやプロセス数を割り当て、プロセス起動に伴うオーバーヘッドをなくす設定を行います。
+    
+    ```bash
+    vim /etc/php-fpm.d/www.conf
+    ```
+
+    ```bash
+    # /etc/php-fpm.d/www.conf
+
+    pm = static
+    pm.max_children = 50
+    pm.start_servers = 50
+    pm.min_spare_servers = 50
+    pm.max_spare_servers = 50
+    pm.process_idle_timeout = 10s;
+    pm.max_requests = 100
+    php_admin_value[memory_limit] = 256M
+    request_terminate_timeout = 180
+    ```
+    
+6. php-fpmの再起動を行います。
+    
+    ```bash
+    systemctl restart php-fpm
+    ```
