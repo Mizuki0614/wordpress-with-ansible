@@ -19,5 +19,6 @@
 
 ### Wordpress導入のためのOS/MW/SW準備
 1. [OSユーザー作成/公開鍵認証設定](./docs/2-1_ssh-setting.md)
-2. [Nginxの導入・設定](./docs/2-2_nginx-setting.md)
+2. [Nginxの導入/設定](./docs/2-2_nginx-setting.md)
 3. [PHPの導入/設定](./docs/2-3_php-setting.md)
+4. [MySQLの導入/設定](./docs/2-4_mysql-setting.md)
