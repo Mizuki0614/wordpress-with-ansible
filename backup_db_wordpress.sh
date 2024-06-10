@@ -10,7 +10,7 @@ BACKUP_FILE="$BACKUP_DIR/wordpress-bk-$DATE.sql"
 
 # Backup取得
 mkdir -p $BACKUP_DIR
-mysqldump -u $USER $DB --single-transaction --no-tablespaces --events > $BACKUP_FILE
+mysqldump -u $USER -p"$MYSQL_PWD" $DB --single-transaction --no-tablespaces --events > $BACKUP_FILE
 
 # 終了ステータスのチェック
 if [ $? -eq 0 ]; then
