@@ -1,12 +1,16 @@
 # !/bin/bash
+set -eu
 
-PASSWORD_FILE="/root/.password/mysql_menta_password"
-MYSQL_PWD=$(cat $PASSWORD_FILE)
+PASSWORD_SH="/root/.password/mysql_menta_password.sh"
+MYSQL_PWD=$(source $PASSWORD_SH)
 BACKUP_DIR="/var/backups/mysql/wordpress"
 DATE=$(date +%Y%m%d)
 USER="menta"
 DB="wordpress"
 BACKUP_FILE="$BACKUP_DIR/wordpress-bk-$DATE.sql"
+
+OLD_DATE=$(date +%Y%m%d --date "5 days ago")
+OLD_BACKUP_FILE="$BACKUP_DIR/wordpress-bk-$OLD_DATE.sql"
 
 # Backup取得
 mkdir -p $BACKUP_DIR
@@ -21,4 +25,4 @@ fi
 
 # Backup世代管理（5世代保持）
 cd $BACKUP_DIR
-ls -1tr wordpress-bk-*.sql | head -n -5 | xargs -d '\n' rm -f
+rm -f ${OLD_BACKUP_FILE}
