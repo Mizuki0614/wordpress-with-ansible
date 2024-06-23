@@ -36,7 +36,7 @@
 2. PowerShellからvagrantコマンドを使ってBoxを追加します。Box名はcentos72とします。
     
     ```bash
-    vagrant add box centos72 {コピーしたURL}
+    vagrant box add centos72 {コピーしたURL}
     ```
     
 3. Windowsの適当な場所にプロジェクトディレクトリを作成します。当手順では`C:\Users\waono\Project\menta` としています。PowerShellで作成したディレクトリに移動し、Vagrantfileを作成します。
