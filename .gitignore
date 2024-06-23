@@ -1,0 +1,4 @@
+.vagrant/
+local_test/
+bk/
+vagrant-env/
