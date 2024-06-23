@@ -100,9 +100,11 @@
 
     # `~/.ssh` フォルダが存在しない場合、作成を行います。
     mkdir ~/.ssh
+    chmod 700 ~/.ssh
 
     # `~/.ssh/authorized_keys` に公開鍵の内容を追記します。
     cat /vagrant/id_rsa.pub >> ~/.ssh/authorized_keys
+    chmod 600 ~/.ssh/authorized_keys
     
     # ファイルとディレクトリに対して権限の設定を行います。
     chmod 700 ~/.ssh/
@@ -135,3 +137,26 @@
             Last login: Sun Jun  9 11:05:00 2024
             [menta@localhost ~]$
             ```
+
+### （補足）LinuxクラアントからのSSH接続の場合
+> Linux to Linuxの公開鍵認証では、クライアント側のSSH設定で認証方式を指定する記述を追加する必要があります。  
+> 当項目では備忘録として認証方式を設定ファイルに明記しなかった場合に出たエラーとその解決策を記載します。
+
+- **出力エラー**
+    ``` bash
+    menta@ubuntu-focal:/home/vagrant$ ssh -i /home/menta/.ssh/id_rsa menta@192.168.50.4 -v
+
+    # （略）
+    debug1: Next authentication method: publickey
+    debug1: Offering public key: /home/menta/.ssh/id_rsa RSA SHA256:MauXntrwjbZj5SJosIoH8qlFgoD9qeNCeidF/bQ0OTU explicit
+    debug1: send_pubkey_test: no mutual signature algorithm
+    debug1: No more authentication methods to try.
+    ```
+
+- **追加対応**
+  - /etc/ssh/ssh_config（SSHクライアント側の設定ファイル）に認証方式を指定した（RSA）
+    ``` bash
+    root@ubuntu-focal:~# vim  /etc/ssh/ssh_config
+
+    +     PubkeyAcceptedKeyTypes ssh-rsa
+    ```
