@@ -2,3 +2,6 @@
 local_test/
 bk/
 vagrant-env/
+
+# ansible-management
+ansible-env/
