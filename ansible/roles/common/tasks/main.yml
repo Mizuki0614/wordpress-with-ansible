@@ -1,0 +1,6 @@
+# User: menta作成してpasswd設定
+
+# Dir: /home/menta/.sshを作成して権限を700で設定
+# Files: files/id_rsa.pubを転送してクライアント側の/home/menta/.ssh/authorized_keysに追記、権限を600設定
+
+# Files: files/sshd_configを転送してクライアント側の/etc/ssh/sshd_configに上書き保存、権限を600, root:rootに設定
