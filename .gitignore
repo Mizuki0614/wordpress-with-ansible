@@ -5,3 +5,7 @@ vagrant-env/
 
 # ansible-management
 ansible-env/
+
+# ansible-management (dev)
+# 5f-local to AWS-private
+ansible-env-dev

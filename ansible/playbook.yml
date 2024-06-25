@@ -1,8 +1,11 @@
+- hosts: all
+  roles:
+    - common
+
 - hosts: web
   roles:
     - mysql 
     - nginx
     - php
-    - shell
     - ssh
     - wordpress
